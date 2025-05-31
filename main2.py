@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 class Order:
     items = []
     quantities = []
@@ -12,24 +13,22 @@ class Order:
         for i in range(len(self.prices)):
             total += self.quantities [i] * self.prices[i]
             return total
-    def Pay(self, payment_type, security_code):
-        if payment_type == "debit":
-            print("Processing debit type")
-            print(f"Verifying security_code: {security_code}")
-            self.status = "paid"
-        elif payment_type =="credit":
-            print("processing credit card")
-            print(f"Verifying security_code: {security_code}")
-            self.status = "paid"
-        else:
-            raise Exception(f"Unknown payment type: {payment_type}")
-
-class PaymentProcessor:
-    def pay_debit(self, order, security_code):
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def pay(self, order, secutiy_code):
+        pass
+class DebitPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
         print("Processing debit payment type")
         print(f"Verifying security code: {security_code}")
         order.status = "paid"
-    def pay_debit(self, order, security_code):
+class CreditPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
+        print("Processing credit payment type")
+        print(f"Verifying security code: {security_code}")
+        order.status = "paid"
+class PaypalPaymentProcessor(PaymentProcessor):
+    def pay(self, order, security_code):
         print("Processing credit payment type")
         print(f"Verifying security code: {security_code}")
         order.status = "paid"
@@ -42,8 +41,8 @@ order.add_item("SSD", 1, 45)
 order.add_item("USB cable", 2, 50)
 
 print(order.total_price())
-processor = PaymentProcessor()
-processor.pay_debit(order, "3247432")
+processor = PaypalPaymentProcessor()
+processor.pay(order, "3247432")
 
 
 
