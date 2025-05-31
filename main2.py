@@ -25,10 +25,14 @@ class Order:
             raise Exception(f"Unknown payment type: {payment_type}")
 
 class PaymentProcessor:
-    def pay_debit(self, security_code):
+    def pay_debit(self, order, security_code):
         print("Processing debit payment type")
         print(f"Verifying security code: {security_code}")
-        self.status = "paid"
+        order.status = "paid"
+    def pay_debit(self, order, security_code):
+        print("Processing credit payment type")
+        print(f"Verifying security code: {security_code}")
+        order.status = "paid"
     
 
 
@@ -38,7 +42,8 @@ order.add_item("SSD", 1, 45)
 order.add_item("USB cable", 2, 50)
 
 print(order.total_price())
-order.pay("debit", "0374574")
+processor = PaymentProcessor()
+processor.pay_debit(order, "3247432")
 
 
 
