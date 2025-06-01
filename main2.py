@@ -13,9 +13,13 @@ class Order:
         for i in range(len(self.prices)):
             total += self.quantities [i] * self.prices[i]
             return total
+        
 class PaymentProcessor(ABC):
     @abstractmethod
-    def pay(self, order, secutiy_code):
+    def auth_sms(self, code):
+        pass
+    @abstractmethod
+    def pay(self, other):
         pass
 class DebitPaymentProcessor(PaymentProcessor):
     def __init__(self, security_code):
