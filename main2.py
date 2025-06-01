@@ -21,6 +21,7 @@ class PaymentProcessor(ABC):
     @abstractmethod
     def pay(self, other):
         pass
+class PaymentProcessor_SMS(PaymentProcessor):
 class DebitPaymentProcessor(PaymentProcessor):
     def __init__(self, security_code):
         self.security_code = security_code
